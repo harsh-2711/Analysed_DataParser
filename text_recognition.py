@@ -169,6 +169,9 @@ for ((startX, startY, endX, endY), text) in results:
 	print("========")
 	print("{}\n".format(text))
 
+
+	'''
+
 	# strip out non-ASCII text so we can draw the text on the image
 	# using OpenCV, then draw the text and a bounding box surrounding
 	# the text region of the input image
@@ -182,3 +185,4 @@ for ((startX, startY, endX, endY), text) in results:
 	# show the output image
 	cv2.imshow("Text Detection", output)
 	cv2.waitKey(100)
+	'''
