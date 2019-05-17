@@ -5,7 +5,7 @@ from collections import Counter
 import en_core_web_sm
 nlp = en_core_web_sm.load()
 
-pdfFileObj = open('2.pdf', 'rb') 
+pdfFileObj = open('images/2.pdf', 'rb') 
 pdfReader = PyPDF2.PdfFileReader(pdfFileObj) 
 
 l = []
