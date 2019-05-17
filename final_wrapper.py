@@ -214,10 +214,11 @@ def main(args):
     	analysePDF(arg_p['pdf'])
 
     elif arg_p['pdf'] == None and arg_p['filename'] == None:
-    	inp = input("Which method do you want to use - 1 or 2?")
-    	if inp == 1:
+    	inp = input("Which method do you want to use - 1 or 2? ")
+    	if inp == '1':
     		detectText1(arg_p['image'])
-    	elif inp == 2:
+
+    	elif inp == '2':
     		detectText2(arg_p['image'], arg_p['east'], arg_p['min-confidence'], 
     			arg_p['width'], arg_p['height'], arg_p['padding'])
     	else:
