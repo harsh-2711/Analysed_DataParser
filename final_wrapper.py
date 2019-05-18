@@ -172,6 +172,8 @@ def detectText2(image_path, model, min_confidence, width, height, padding):
 	for ((startX, startY, endX, endY), text) in results:
 		sentences.append(text)
 
+	print(sentences)
+	
 	s = "".join(sentences)
 	s = s.split("\n")
 	s = "".join(s)
@@ -189,7 +191,7 @@ def arg_parse():
 		help="path to input image")
 	arg_p.add_argument("-east", "--east", type=str, 
 		help="path to input EAST text detector")
-	arg_p.add_argument("-c", "--min-confidence", type=float, default=0.5,
+	arg_p.add_argument("-c", "--minConfidence", type=float, default=0.5,
 		help="minimum probability required to inspect a region")
 	arg_p.add_argument("-w", "--width", type=int, default=320,
 		help="nearest multiple of 32 for resized width")
@@ -219,7 +221,7 @@ def main(args):
     		detectText1(arg_p['image'])
 
     	elif inp == '2':
-    		detectText2(arg_p['image'], arg_p['east'], arg_p['min-confidence'], 
+    		detectText2(arg_p['image'], arg_p['east'], arg_p['minConfidence'], 
     			arg_p['width'], arg_p['height'], arg_p['padding'])
     	else:
     		print("Please provide proper choice")
