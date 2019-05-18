@@ -130,7 +130,7 @@ def detectText2(image_path, model, min_confidence, width, height, padding):
 		"feature_fusion/Conv_7/Sigmoid",
 		"feature_fusion/concat_3"]
 
-	print("[INFO] loading EAST text detector...")
+	print("Loading model...")
 	net = cv2.dnn.readNet(model)
 
 	blob = cv2.dnn.blobFromImage(image, 1.0, (W, H),
@@ -172,14 +172,37 @@ def detectText2(image_path, model, min_confidence, width, height, padding):
 	for ((startX, startY, endX, endY), text) in results:
 		sentences.append(text)
 
-	print(sentences)
+	return sentences
 	
+	'''
 	s = "".join(sentences)
 	s = s.split("\n")
 	s = "".join(s)
 
 	doc = nlp(s)
-	print([(X.text, X.label_) for X in doc.ents])
+	return [(X.text, X.label_) for X in doc.ents]
+	'''
+
+def detectText3(image_path, model, min_confidence, width, height):
+
+	min_padding = 0
+	max_padding = 0.5
+	step = 0.05
+
+	curr_padding = min_padding
+	max_len = 0
+	final_tpl = []
+
+	while curr_padding <= max_padding:
+
+		tpl = detectText2(image_path, model, min_confidence, width, height, curr_padding)
+		curr_padding += step
+
+		if len(tpl) > max_len:
+			max_len = len(tpl)
+			final_tpl = tpl
+
+	return final_tpl
 
 def arg_parse():
 	arg_p = ArgumentParser('NER Python Wrapper')
@@ -216,13 +239,21 @@ def main(args):
     	analysePDF(arg_p['pdf'])
 
     elif arg_p['pdf'] == None and arg_p['filename'] == None:
-    	inp = input("Which method do you want to use - 1 or 2? ")
+    	inp = input("Which method do you want to use - 1. Doc based or 2. Image based - Manual Parameters or 3. Image based - Auto Parameters? ")
+    	
     	if inp == '1':
     		detectText1(arg_p['image'])
 
     	elif inp == '2':
-    		detectText2(arg_p['image'], arg_p['east'], arg_p['minConfidence'], 
+    		tpl = detectText2(arg_p['image'], arg_p['east'], arg_p['minConfidence'], 
     			arg_p['width'], arg_p['height'], arg_p['padding'])
+    		print(tpl)
+
+    	elif inp == '3':
+    		tpl = detectText3(arg_p['image'], arg_p['east'], arg_p['minConfidence'], 
+    			arg_p['width'], arg_p['height'])
+    		print(tpl)
+
     	else:
     		print("Please provide proper choice")
     		exit(1)
